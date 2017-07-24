@@ -19,8 +19,8 @@ def Get_Move_Set(stacks):
     print("Get Move Set")
     print(stacks)
     for i in range(M):
-        print("i:", i)
-        print(stacks[i])
+        # print("i:", i)
+        # print(stacks[i])
         
         current_stack = stacks[i]
         if(current_stack):
@@ -36,6 +36,13 @@ def Get_Move_Set(stacks):
                 moves.add((i, 1))
         
     return moves
+    
+# Returns new list of stacks with executed move
+def Execute_Move(stacks, move):
+    source_stack_index = move[0]
+    destination_stack_index = move[0] + move[1]
+    stacks[destination_stack_index].append(stacks[source_stack_index].pop())
+    return stacks
 
 def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
     # Initialize data structures
@@ -56,10 +63,7 @@ def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
         move = random.choice(list(moves))
         print(move)
         
-        # Implement move
-        source_stack_index = move[0]
-        destination_stack_index = move[0] + move[1]
-        stacks[destination_stack_index].append(stacks[source_stack_index].pop())
+        stacks = Execute_Move(stacks, move)
         
         # Calculate and append center of mass to list
         
@@ -69,5 +73,6 @@ def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
 
 # Main 
 if __name__ == "__main__":
-    Run_Tower_Of_Hanoi(3, 3, 16)
+    # Run_Tower_Of_Hanoi(3, 3, 16)
+    Run_Tower_Of_Hanoi(6, 6, 256)
     
