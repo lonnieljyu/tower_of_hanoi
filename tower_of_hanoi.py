@@ -59,8 +59,8 @@ def Print_Centers_Of_Mass_Statistics(centers_of_mass):
     array = numpy.array(centers_of_mass)
     mean = array.mean()
     std = array.std(ddof=0)
-    print("mean:", mean)
-    print("std:", std)
+    print("mean: {:.10f}".format(mean))
+    print("std: {:.10f}".format(std))
     
 def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
     stacks = Initialize_Stacks(number_of_stacks, number_of_disks)
