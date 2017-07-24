@@ -11,6 +11,11 @@ Calculates the center of mass at each iteration.
 Returns the center of mass mean and standard deviation (std).
 """
 
+def Initialize_Stacks(number_of_stacks, number_of_disks):
+    stacks = [list() for i in range(number_of_stacks)]
+    stacks[0] = [weight for weight in reversed(range(1, number_of_disks+1))]
+    return stacks
+
 # Returns of a set of move tuples (stack position, direction)
 def Get_Move_Set(stacks):
     moves = set()
@@ -45,11 +50,8 @@ def Execute_Move(stacks, move):
     return stacks
 
 def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
-    # Initialize data structures
-    stacks = [list() for i in range(number_of_stacks)]
-    stacks[0] = [weight for weight in reversed(range(1, number_of_disks+1))]
+    stacks = Initialize_Stacks(number_of_stacks, number_of_disks)
     centers_of_mass = list()
-    
     
     # Loop over T iterations
     for t in range(1, number_of_iterations+1):
@@ -66,13 +68,17 @@ def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
         stacks = Execute_Move(stacks, move)
         
         # Calculate and append center of mass to list
-        
-    # Return center of mass mean and std
+        # Get_Center_Of_Mass(stacks)
     
-    print(stacks)
+    print("")
+    print("Final stacks")
+    print(stacks)    
+    
+    # Return center of mass mean and std
+    print(centers_of_mass)
 
 # Main 
 if __name__ == "__main__":
-    # Run_Tower_Of_Hanoi(3, 3, 16)
-    Run_Tower_Of_Hanoi(6, 6, 256)
+    Run_Tower_Of_Hanoi(3, 3, 16)
+    # Run_Tower_Of_Hanoi(6, 6, 256)
     
