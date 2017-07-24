@@ -15,34 +15,28 @@ def Initialize_Stacks(number_of_stacks, number_of_disks):
     stacks = [list() for i in range(number_of_stacks)]
     stacks[0] = [weight for weight in reversed(range(1, number_of_disks+1))]
     return stacks
-
-# Returns of a set of move tuples (stack position, direction)
-def Get_Move_Set(stacks):
-    moves = set()
-    M = len(stacks) # number of stacks
     
-    print("Get Move Set")
-    print(stacks)
-    for i in range(M):
-        # print("i:", i)
-        # print(stacks[i])
-        
-        current_stack = stacks[i]
-        if(current_stack):
-        
-            # Add left move if valid 
-            if (i > 0 and (not stacks[i-1] 
-                            or current_stack[-1] < stacks[i-1][-1])):
-                moves.add((i, -1))
-            
-            # Add right movie if valid 
-            if (i < M - 1 and (not stacks[i+1] 
-                                or current_stack[-1] < stacks[i+1][-1])):
-                moves.add((i, 1))
-        
+def IsLeftMoveValid(i, stacks):
+    return ((i > 0) 
+            and (not stacks[i-1] or stacks[i][-1] < stacks[i-1][-1]))
+    
+def IsRightMoveValid(i, stacks):
+    return ((i < len(stacks) - 1) 
+            and (not stacks[i+1] or stacks[i][-1] < stacks[i+1][-1]))
+    
+# Returns a set of move tuples (stack position, direction)
+def Get_Move_Set(stacks):
+    moves = set()   
+    for i in range(len(stacks)):
+        if(stacks[i]):
+            if IsLeftMoveValid(i, stacks): moves.add((i, -1))
+            if IsRightMoveValid(i, stacks): moves.add((i, 1))
     return moves
     
-# Returns new list of stacks with executed move
+def Get_Random_Move(moves):
+    return random.choice(list(moves))
+    
+# Returns new stacks list with executed move
 def Execute_Move(stacks, move):
     source_stack_index = move[0]
     destination_stack_index = move[0] + move[1]
@@ -56,16 +50,11 @@ def Get_Sum_Of_Weights_And_Position_Products(stacks):
     products = ((position * numpy.array(stack)).sum() for stack, position in zip(stacks, range(len(stacks))))
     return sum(products)
     
-# Returns the center of mass of stacks
-# CoM = sum(disk weight * disk position) / sum(disk weight)
+# Center of mass = sum(disk weight * stack position of disk) / sum(disk weight)
 def Get_Center_Of_Mass(stacks):
-    print("Get Center of Mass")
-    print(stacks)
+    return Get_Sum_Of_Weights_And_Position_Products(stacks) / Get_Sum_Of_Weigths(stacks)
     
-    center_of_mass = Get_Sum_Of_Weights_And_Position_Products(stacks) / Get_Sum_Of_Weigths(stacks)
-    print("center_of_mass:", center_of_mass)
-    return center_of_mass
-    
+# Print Centers of Mass mean and std with 10-digit precision
 def Print_Centers_Of_Mass_Statistics(centers_of_mass):
     array = numpy.array(centers_of_mass)
     mean = array.mean()
@@ -76,34 +65,32 @@ def Print_Centers_Of_Mass_Statistics(centers_of_mass):
 def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
     stacks = Initialize_Stacks(number_of_stacks, number_of_disks)
     centers_of_mass = list()
+    print(stacks)
     
-    # Loop over T iterations
     for t in range(1, number_of_iterations+1):
-        print("")
-        print("T: ", t)
+        print("\nT: ", t)
         
         moves = Get_Move_Set(stacks)
         print(moves)
         
-        # Randomly choose move from move set
-        move = random.choice(list(moves))
+        move = Get_Random_Move(moves)
         print(move)
         
         stacks = Execute_Move(stacks, move)
+        print(stacks)
         
-        # Calculate and append center of mass to list
-        centers_of_mass.append(Get_Center_Of_Mass(stacks))
+        center_of_mass = Get_Center_Of_Mass(stacks)
+        print(center_of_mass)
+        
+        centers_of_mass.append(center_of_mass)
     
-    print("")
-    print("Final stacks")
+    print("\nFinal stacks:")
     print(stacks)    
     
-    # Return center of mass mean and std
-    print(centers_of_mass)
     Print_Centers_Of_Mass_Statistics(centers_of_mass)
 
 # Main 
 if __name__ == "__main__":
-    # Run_Tower_Of_Hanoi(3, 3, 16)
-    Run_Tower_Of_Hanoi(6, 6, 256)
+    Run_Tower_Of_Hanoi(3, 3, 16)
+    # Run_Tower_Of_Hanoi(6, 6, 256)
     
