@@ -48,7 +48,24 @@ def Execute_Move(stacks, move):
     destination_stack_index = move[0] + move[1]
     stacks[destination_stack_index].append(stacks[source_stack_index].pop())
     return stacks
-
+    
+def Get_Sum_Of_Weigths(stacks):
+    return numpy.array(numpy.array(stacks).sum()).sum()
+    
+def Get_Sum_Of_Weights_And_Position_Products(stacks):
+    products = ((position * numpy.array(stack)).sum() for stack, position in zip(stacks, range(len(stacks))))
+    return sum(products)
+    
+# Returns the center of mass of stacks
+# CoM = sum(disk weight * disk position) / sum(disk weight)
+def Get_Center_Of_Mass(stacks):
+    print("Get Center of Mass")
+    print(stacks)
+    
+    center_of_mass = Get_Sum_Of_Weights_And_Position_Products(stacks) / Get_Sum_Of_Weigths(stacks)
+    print("center_of_mass:", center_of_mass)
+    return center_of_mass
+    
 def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
     stacks = Initialize_Stacks(number_of_stacks, number_of_disks)
     centers_of_mass = list()
@@ -68,7 +85,7 @@ def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
         stacks = Execute_Move(stacks, move)
         
         # Calculate and append center of mass to list
-        # Get_Center_Of_Mass(stacks)
+        centers_of_mass.append(Get_Center_Of_Mass(stacks))
     
     print("")
     print("Final stacks")
