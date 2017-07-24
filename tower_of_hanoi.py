@@ -65,32 +65,16 @@ def Print_Centers_Of_Mass_Statistics(centers_of_mass):
 def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
     stacks = Initialize_Stacks(number_of_stacks, number_of_disks)
     centers_of_mass = list()
-    print(stacks)
-    
     for t in range(1, number_of_iterations+1):
-        print("\nT: ", t)
-        
         moves = Get_Move_Set(stacks)
-        print(moves)
-        
         move = Get_Random_Move(moves)
-        print(move)
-        
         stacks = Execute_Move(stacks, move)
-        print(stacks)
-        
         center_of_mass = Get_Center_Of_Mass(stacks)
-        print(center_of_mass)
-        
-        centers_of_mass.append(center_of_mass)
-    
-    print("\nFinal stacks:")
-    print(stacks)    
-    
+        centers_of_mass.append(center_of_mass)    
     Print_Centers_Of_Mass_Statistics(centers_of_mass)
 
 # Main 
 if __name__ == "__main__":
     Run_Tower_Of_Hanoi(3, 3, 16)
-    # Run_Tower_Of_Hanoi(6, 6, 256)
+    Run_Tower_Of_Hanoi(6, 6, 256)
     
