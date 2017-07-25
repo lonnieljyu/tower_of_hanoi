@@ -1,9 +1,12 @@
+import sys
 import random
 import numpy
 
 """
 tower_of_hanoi.py
 - Lonnie Yu
+
+Usage: python tower_of_hanoi.py number_of_stacks number_of_disks number_of_iterations
 
 Sets up a Tower of Hanoi game with the given input parameters.
 Makes random valid moves for T iterations.
@@ -63,9 +66,9 @@ def Print_Centers_Of_Mass_Statistics(centers_of_mass):
     print("std: {:.10f}".format(std))
     
 def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
-    stacks = Initialize_Stacks(number_of_stacks, number_of_disks)
+    stacks = Initialize_Stacks(int(number_of_stacks), int(number_of_disks))
     centers_of_mass = list()
-    for t in range(1, number_of_iterations+1):
+    for t in range(1, int(number_of_iterations)+1):
         moves = Get_Move_Set(stacks)
         move = Get_Random_Move(moves)
         stacks = Execute_Move(stacks, move)
@@ -75,6 +78,5 @@ def Run_Tower_Of_Hanoi(number_of_stacks, number_of_disks, number_of_iterations):
 
 # Main 
 if __name__ == "__main__":
-    Run_Tower_Of_Hanoi(3, 3, 16)
-    Run_Tower_Of_Hanoi(6, 6, 256)
+    Run_Tower_Of_Hanoi(sys.argv[1], sys.argv[2], sys.argv[3])
     
